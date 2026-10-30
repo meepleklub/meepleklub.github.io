@@ -1,20 +1,24 @@
 <script>
   import { contact } from "./data.js";
 
-  const mapUrl =
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(contact.address);
+  const venue = contact.venue?.trim();
+  const address = contact.address?.trim();
+  const mapUrl = address
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+    : null;
 </script>
 
 <section id="elerhetoseg" class="container wide contact-card">
   <h2>Elérhetőség</h2>
 
   <div class="cards flush">
-    <article class="card">
-      <h3>Helyszín</h3>
-      <p>{contact.venue}</p>
-      <p>{contact.address}</p>
-    </article>
+    {#if venue || address}
+      <article class="card">
+        <h3>Helyszín</h3>
+        {#if venue}<p>{venue}</p>{/if}
+        {#if address}<p>{address}</p>{/if}
+      </article>
+    {/if}
     <article class="card">
       <h3>E-mail</h3>
       <p><a href="mailto:{contact.email}">{contact.email}</a></p>
@@ -29,7 +33,9 @@
     </article>
   </div>
 
-  <a class="btn" href={mapUrl} target="_blank" rel="noopener noreferrer"
-    >Megnyitás a térképen</a
-  >
+  {#if mapUrl}
+    <a class="btn" href={mapUrl} target="_blank" rel="noopener noreferrer"
+      >Megnyitás a térképen</a
+    >
+  {/if}
 </section>
