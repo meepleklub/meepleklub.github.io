@@ -5,6 +5,8 @@ import { resolve } from 'node:path';
 const root = new URL('.', import.meta.url).pathname;
 
 export default defineConfig({
+  // The repository is named <owner>.github.io, so GitHub Pages serves it at the domain root.
+  base: '/',
   plugins: [svelte()],
   build: {
     rollupOptions: {
@@ -17,5 +19,4 @@ export default defineConfig({
       },
     },
   },
-  // When serving the site from a subdirectory (e.g. GitHub Pages), set: base: '/repo-name/'
 });
