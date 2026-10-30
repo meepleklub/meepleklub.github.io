@@ -24,10 +24,8 @@ export const club = {
 };
 
 export const contact = {
-  venue: 'Klubhelyiség neve',
-  address: 'Példa utca 12., Város',
-  email: 'info@meepleklub.hu',
+  email: 'meepleklub@gmail.com',
   social: [
-    { name: 'Facebook', url: 'https://facebook.com/' },
+    { name: 'Facebook', url: 'https://www.facebook.com/people/Meeple-Klub/61596200124377/' },
   ],
 };
