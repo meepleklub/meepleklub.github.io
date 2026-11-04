@@ -24,6 +24,8 @@ export const club = {
 };
 
 export const contact = {
+  venue: 'MIKSZ',
+  address: '3530 Miskolc Papszer 2.',
   email: 'meepleklub@gmail.com',
   social: [
     { name: 'Facebook', url: 'https://www.facebook.com/people/Meeple-Klub/61596200124377/' },
