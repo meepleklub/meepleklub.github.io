@@ -10,6 +10,9 @@
     weekday: 'long', month: 'long', day: 'numeric',
   });
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+  const locationHref = (item) => item.address
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.address)}`
+    : '';
 
   function parseCsv(text) {
     const rows = [];
@@ -98,11 +101,19 @@
   {#if loadError}
     <p role="status">{loadError}</p>
   {:else if next}
-    <a class="next-up" href={next.url} target="_blank" rel="noopener noreferrer">
+    <div class="next-up">
       <span class="label">Következő alkalom</span>
       <strong>{cap(fmtDate.format(next.date))}</strong>
       <span>{[next.from && next.to ? `${next.from}–${next.to}` : '', next.title].filter(Boolean).join(', ')}</span>
-    </a>
+      {#if next.location}<span>Helyszín: {next.location}</span>{/if}
+      {#if next.address}
+        <span class="event-address">{next.address}</span>
+      {/if}
+      {#if locationHref(next)}
+        <a class="event-action" href={locationHref(next)} target="_blank" rel="noopener noreferrer">⌖ Helyszín</a>
+      {/if}
+      {#if next.url}<a class="event-action" href={next.url} target="_blank" rel="noopener noreferrer">Részletek ↗</a>{/if}
+    </div>
   {/if}
 
   <h3 class="sub-title">Minden héten</h3>
@@ -113,6 +124,9 @@
         {#if item.from && item.to}<p class="time">{item.from}–{item.to}</p>{/if}
         <p class="card-title">{item.title}</p>
         <p>{item.note}</p>
+        {#if item.location}<p class="event-location">Helyszín: {item.location}</p>{/if}
+        {#if item.address}<p class="event-address">{item.address}</p>{/if}
+        {#if locationHref(item)}<p class="event-location"><a class="event-action" href={locationHref(item)} target="_blank" rel="noopener noreferrer">⌖ Térkép</a></p>{/if}
       </article>
     {/each}
   </div>
@@ -121,12 +135,16 @@
     <h3 class="sub-title">Különleges alkalmak</h3>
     <div class="cards flush">
       {#each specials as item}
-        <a class="card special-event-link" href={item.url} target="_blank" rel="noopener noreferrer">
+        <article class="card">
           <p class="card-date">{cap(fmtDate.format(item.date))}</p>
           {#if item.from && item.to}<p class="time">{item.from}–{item.to}</p>{/if}
           <p class="card-title">{item.title}</p>
           <p>{item.note}</p>
-        </a>
+          {#if item.location}<p class="event-location">Helyszín: {item.location}</p>{/if}
+          {#if item.address}<p class="event-address">{item.address}</p>{/if}
+          {#if locationHref(item)}<p class="event-location"><a class="event-action" href={locationHref(item)} target="_blank" rel="noopener noreferrer">⌖ Térkép</a></p>{/if}
+          {#if item.url}<p class="event-location"><a class="event-action" href={item.url} target="_blank" rel="noopener noreferrer">Részletek ↗</a></p>{/if}
+        </article>
       {/each}
     </div>
   {/if}
